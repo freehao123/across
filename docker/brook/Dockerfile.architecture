@@ -3,15 +3,16 @@
 # Reference URL:
 # https://github.com/txthinking/brook
 
-FROM alpine:latest
+FROM --platform=${TARGETPLATFORM} alpine:latest
 LABEL maintainer="Teddysun <i@teddysun.com>"
 
+ARG TARGETPLATFORM
 WORKDIR /root
 COPY brook.sh /root/brook.sh
 RUN set -ex \
 	&& apk add --no-cache tzdata \
 	&& chmod +x /root/brook.sh \
-	&& /root/brook.sh \
+	&& /root/brook.sh "${TARGETPLATFORM}" \
 	&& rm -fv /root/brook.sh
 
 ENV TZ=Asia/Shanghai
